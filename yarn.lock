@@ -9673,6 +9673,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@backstage/plugin-test-backend@workspace:^, @backstage/plugin-test-backend@workspace:plugins/test-backend":
+  version: 0.0.0-use.local
+  resolution: "@backstage/plugin-test-backend@workspace:plugins/test-backend"
+  dependencies:
+    "@backstage/backend-common": "workspace:^"
+    "@backstage/cli": "workspace:^"
+    "@backstage/config": "workspace:^"
+    "@types/express": "*"
+    "@types/supertest": ^2.0.8
+    express: ^4.17.1
+    express-promise-router: ^4.1.0
+    msw: ^1.0.0
+    node-fetch: ^2.6.7
+    supertest: ^6.2.4
+    winston: ^3.2.1
+    yn: ^4.0.0
+  languageName: unknown
+  linkType: soft
+
 "@backstage/plugin-todo-backend@workspace:^, @backstage/plugin-todo-backend@workspace:plugins/todo-backend":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-todo-backend@workspace:plugins/todo-backend"
@@ -25006,6 +25025,7 @@ __metadata:
     "@backstage/plugin-tech-insights-backend-module-jsonfc": "workspace:^"
     "@backstage/plugin-tech-insights-node": "workspace:^"
     "@backstage/plugin-techdocs-backend": "workspace:^"
+    "@backstage/plugin-test-backend": "workspace:^"
     "@backstage/plugin-todo-backend": "workspace:^"
     "@gitbeaker/node": ^35.1.0
     "@octokit/rest": ^19.0.3
