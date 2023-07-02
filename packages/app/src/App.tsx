@@ -35,6 +35,7 @@ import {
 } from '@backstage/core-components';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import { AzurePullRequestsPage } from '@backstage/plugin-azure-devops';
+import { TodoListPage } from '@backstage/plugin-todo-list';
 
 import {
   CatalogEntityPage,
@@ -302,6 +303,7 @@ const routes = (
     <Route path="/devtools" element={<DevToolsPage />}>
       {customDevToolsPage}
     </Route>
+    <Route path="/todo-list" element={<TodoListPage />} />
   </FlatRoutes>
 );
 

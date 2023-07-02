@@ -30,12 +30,12 @@
     "clean": "backstage-cli package clean"
   },
   "dependencies": {
-    "@backstage/catalog-model": "workspace:^",
-    "@backstage/core-components": "workspace:^",
-    "@backstage/core-plugin-api": "workspace:^",
-    "@backstage/errors": "workspace:^",
-    "@backstage/plugin-catalog-react": "workspace:^",
-    "@backstage/theme": "workspace:^",
+    "@backstage/catalog-model": "*",
+    "@backstage/core-components": "*",
+    "@backstage/core-plugin-api": "*",
+    "@backstage/errors": "*",
+    "@backstage/plugin-catalog-react": "*",
+    "@backstage/theme": "*",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "4.0.0-alpha.61",
@@ -47,10 +47,10 @@
     "react-router-dom": "6.0.0-beta.0 || ^6.3.0"
   },
   "devDependencies": {
-    "@backstage/cli": "workspace:^",
-    "@backstage/core-app-api": "workspace:^",
-    "@backstage/dev-utils": "workspace:^",
-    "@backstage/test-utils": "workspace:^",
+    "@backstage/cli": "*",
+    "@backstage/core-app-api": "*",
+    "@backstage/dev-utils": "*",
+    "@backstage/test-utils": "*",
     "@testing-library/dom": "^8.0.0",
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "^12.1.3",

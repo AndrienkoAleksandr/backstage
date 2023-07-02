@@ -55,6 +55,7 @@ import search from './plugins/search';
 import techdocs from './plugins/techdocs';
 import techInsights from './plugins/techInsights';
 import todo from './plugins/todo';
+import testBackend from './plugins/testBackend';
 import graphql from './plugins/graphql';
 import app from './plugins/app';
 import badges from './plugins/badges';
@@ -66,6 +67,7 @@ import lighthouse from './plugins/lighthouse';
 import linguist from './plugins/linguist';
 import devTools from './plugins/devtools';
 import nomad from './plugins/nomad';
+import todoList from './plugins/todolist';
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
@@ -174,6 +176,8 @@ async function main() {
   const linguistEnv = useHotMemoize(module, () => createEnv('linguist'));
   const devToolsEnv = useHotMemoize(module, () => createEnv('devtools'));
   const nomadEnv = useHotMemoize(module, () => createEnv('nomad'));
+  const testEnv = useHotMemoize(module, () => createEnv('test'));
+  const todoListEnv = useHotMemoize(module, () => createEnv('todolist'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -201,6 +205,8 @@ async function main() {
   apiRouter.use('/linguist', await linguist(linguistEnv));
   apiRouter.use('/devtools', await devTools(devToolsEnv));
   apiRouter.use('/nomad', await nomad(nomadEnv));
+  apiRouter.use('/test', await testBackend(testEnv));
+  apiRouter.use('/todolist', await todoList(todoListEnv));
   apiRouter.use(notFoundHandler());
 
   await lighthouse(lighthouseEnv);
