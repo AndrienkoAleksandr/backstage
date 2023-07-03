@@ -22,6 +22,7 @@ import { PluginEnvironment } from '../types';
 export default async function createPlugin({
   logger,
   discovery,
+  permissions,
 }: PluginEnvironment): Promise<Router> {
   return await createRouter({
     logger,
@@ -29,5 +30,6 @@ export default async function createPlugin({
       discovery,
       issuer: await discovery.getExternalBaseUrl('auth'),
     }),
+    permissions,
   });
 }

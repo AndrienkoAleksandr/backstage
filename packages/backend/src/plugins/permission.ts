@@ -19,6 +19,7 @@ import { createRouter } from '@backstage/plugin-permission-backend';
 import {
   AuthorizeResult,
   PolicyDecision,
+  isPermission,
 } from '@backstage/plugin-permission-common';
 import {
   PermissionPolicy,
@@ -30,6 +31,7 @@ import {
 } from '@backstage/plugin-playlist-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
+import { todoListCreatePermission } from '@backstage/plugin-todo-list-common';
 
 class ExamplePermissionPolicy implements PermissionPolicy {
   private playlistPermissionPolicy = new DefaultPlaylistPermissionPolicy();
@@ -40,6 +42,14 @@ class ExamplePermissionPolicy implements PermissionPolicy {
   ): Promise<PolicyDecision> {
     if (isPlaylistPermission(request.permission)) {
       return this.playlistPermissionPolicy.handle(request, user);
+    }
+
+    if (request.permission.name === 'catalog.entity.delete') {
+      return { result: AuthorizeResult.DENY };
+    }
+
+    if (isPermission(request.permission, todoListCreatePermission)) {
+      return { result: AuthorizeResult.DENY };
     }
 
     return {

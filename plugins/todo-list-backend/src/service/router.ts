@@ -20,7 +20,20 @@ import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { add, getAll, update } from './todos';
 import { InputError } from '@backstage/errors';
-import { IdentityApi } from '@backstage/plugin-auth-node';
+import {
+  IdentityApi,
+  getBearerTokenFromAuthorizationHeader,
+} from '@backstage/plugin-auth-node';
+import {
+  AuthorizeResult,
+  PermissionEvaluator,
+} from '@backstage/plugin-permission-common';
+import { createPermissionIntegrationRouter } from '@backstage/plugin-permission-node';
+import {
+  todoListCreatePermission,
+  todoListPermissions,
+} from '@backstage/plugin-todo-list-common';
+import { NotAllowedError } from '@backstage/errors';
 
 /**
  * Dependencies of the todo-list router
@@ -30,6 +43,7 @@ import { IdentityApi } from '@backstage/plugin-auth-node';
 export interface RouterOptions {
   logger: Logger;
   identity: IdentityApi;
+  permissions: PermissionEvaluator;
 }
 
 /**
@@ -44,10 +58,15 @@ export interface RouterOptions {
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger, identity } = options;
+  const { logger, identity, permissions } = options;
+
+  const permissionIntegrationRouter = createPermissionIntegrationRouter({
+    permissions: todoListPermissions,
+  });
 
   const router = Router();
   router.use(express.json());
+  router.use(permissionIntegrationRouter);
 
   router.get('/health', (_, response) => {
     logger.info('PONG!');
@@ -63,6 +82,19 @@ export async function createRouter(
 
     const user = await identity.getIdentity({ request: req });
     author = user?.identity.userEntityRef;
+
+    const token = getBearerTokenFromAuthorizationHeader(
+      req.header('authorization'),
+    );
+    const decision = (
+      await permissions.authorize([{ permission: todoListCreatePermission }], {
+        token: token,
+      })
+    )[0];
+
+    if (decision.result === AuthorizeResult.DENY) {
+      throw new NotAllowedError();
+    }
 
     if (!isTodoCreateRequest(req.body)) {
       throw new InputError('Invalid payload');
